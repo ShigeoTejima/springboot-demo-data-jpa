@@ -50,6 +50,10 @@ public class UserRepositoryTest {
     void setup() {
     }
 
+    /*
+     * [SQL]
+     * org.hibernate.SQL : select u1_0.id,u1_0.name from users u1_0
+     */
     @Test
     @Sql("classpath:demo-data.sql")
     void demo() {
@@ -61,6 +65,12 @@ public class UserRepositoryTest {
 
     }
 
+    /*
+     * org.hibernate.SQL           : select u1_0.id,u1_0.name from users u1_0 offset ? rows fetch first ? rows only
+     * org.hibernate.orm.jdbc.bind : binding parameter (1:INTEGER) <- [5]
+     * org.hibernate.orm.jdbc.bind : binding parameter (2:INTEGER) <- [5]
+     * org.hibernate.SQL           : select count(u1_0.id) from users u1_0
+     */
     @Test
     @Sql("classpath:demo-data10.sql")
     void demoPagination() {
@@ -76,6 +86,12 @@ public class UserRepositoryTest {
             actual.toList());
     }
 
+    /*
+     * org.hibernate.SQL           : select u1_0.id,u1_0.name from users u1_0 offset ? rows fetch first ? rows only
+     * org.hibernate.orm.jdbc.bind : binding parameter (1:INTEGER) <- [5]
+     * org.hibernate.orm.jdbc.bind : binding parameter (2:INTEGER) <- [3]
+     * org.hibernate.SQL           : select count(u1_0.id) from users u1_0
+     */
     @Test
     @Sql("classpath:demo-data10.sql")
     void demoOffsetLimit() {
@@ -94,6 +110,11 @@ public class UserRepositoryTest {
     @Autowired
     EntityManager em;
 
+    /*
+     * org.hibernate.SQL           : select u1_0.id,u1_0.name from users u1_0 offset ? rows fetch first ? rows only
+     * org.hibernate.orm.jdbc.bind : binding parameter (1:INTEGER) <- [5]
+     * org.hibernate.orm.jdbc.bind : binding parameter (2:INTEGER) <- [3]
+     */
     @Test
     @Sql("classpath:demo-data10.sql")
     void demoUsingQuery() {
